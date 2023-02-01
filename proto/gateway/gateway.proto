@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option go_package = "./gateway";
+
+import "cosmos/base/abci/v1beta1/abci.proto";
+import "google/api/annotations.proto";
+
+service Gateway {
+  rpc TxAmino(TxAminoRequest) returns (TxAminoResponse) {
+    option (google.api.http) = {
+      post: "/cosmos/tx/v1beta1/tx-amino"
+      body: "*"
+    };
+  }
+}
+
+message TxAminoRequest {
+  bytes tx_amino = 1;
+  uint64 sequence = 2;
+  // cosmos.tx.v1beta1.BroadcastMode mode = 3;
+}
+
+message TxAminoResponse {
+  cosmos.base.abci.v1beta1.TxResponse tx_response = 1;
+}
